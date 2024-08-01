@@ -1,3 +1,5 @@
+
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
@@ -8,16 +10,23 @@ const multer = require('multer');
 
 const bcrypt = require('bcrypt');
 
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('uploads'));
 
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_NAME:', process.env.DB_NAME);
+
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'porchoua_node_vue_daily'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
+
 // Connect MySQL Database
 db.connect(err => {
     if (err) throw err;
