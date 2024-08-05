@@ -1180,6 +1180,31 @@ app.delete('/api/delete-plan/:planId', (req, res) => {
     });
 });
 
+// API Delete Plan
+app.delete('/api/delete-school_table/:school_table_id', (req, res) => {
+    const school_table_id = req.params.school_table_id;
+
+    const query = 'DELETE FROM school_tables WHERE id = ?';
+    const values = [school_table_id];
+
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Error deleting Plan:', err);
+            return res.status(500).send({
+                error: 'Database error'
+            });
+        } else if (result.affectedRows === 0) {
+            // No note found with the given ID
+            return res.status(404).send({
+                error: 'Plan not found'
+            });
+        }
+        res.status(200).send({
+            message: 'School Table deleted successfully'
+        });
+    });
+});
+
 
 // API DELETE image
 app.delete('/api/delete-image/:imageId', (req, res) => {
