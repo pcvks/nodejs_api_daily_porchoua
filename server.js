@@ -141,7 +141,7 @@ app.post('/api/create-daily', (req, res) => {
         twentyone_twentytwo,
         twentytwo_twentythree,
         twentythree_five,
-        day
+        days
     } = req.body;
 
     if (!five_six || !six_seven ||
@@ -153,7 +153,7 @@ app.post('/api/create-daily', (req, res) => {
         !seventeen_eighteen || !eighteen_nineteen ||
         !nineteen_twenty || !twenty_twentyone ||
         !twentyone_twentytwo || !twentytwo_twentythree ||
-        !twentythree_five || !day ||
+        !twentythree_five || !days ||
         five_six.trim() === "" || six_seven.trim() === "" ||
         seven_eight.trim() === "" || eight_nine.trim() === "" ||
         nine_ten.trim() === "" || ten_eleven.trim() === "" ||
@@ -163,7 +163,7 @@ app.post('/api/create-daily', (req, res) => {
         seventeen_eighteen.trim() === "" || eighteen_nineteen.trim() === "" ||
         nineteen_twenty.trim() === "" || twenty_twentyone.trim() === "" ||
         twentyone_twentytwo.trim() === "" || twentytwo_twentythree.trim() === "" ||
-        twentythree_five.trim() === "" || day.trim() === "") {
+        twentythree_five.trim() === "" || days.trim() === "") {
         return res.status(400).send({
             error: 'All fields are required'
         });
@@ -171,8 +171,8 @@ app.post('/api/create-daily', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO daily (five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, day) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, day];
+    const query = `INSERT INTO daily (five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, days) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values = [five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, days];
 
     console.log('Executing query:', query);
     console.log('With values:', values);
@@ -343,15 +343,15 @@ app.post('/api/create-plan', (req, res) => {
 // API Create School Table
 app.post('/api/create-school_table', (req, res) => {
     const {
-        day,
+        days,
         first_time,
         second_time,
         third_time,
         fourth_time
     } = req.body;
 
-    if (!day || !first_time || !second_time || !third_time || !fourth_time 
-        || day.trim() === ""|| first_time.trim() === ""|| second_time.trim() === "" 
+    if (!days || !first_time || !second_time || !third_time || !fourth_time 
+        || days.trim() === ""|| first_time.trim() === ""|| second_time.trim() === "" 
         || third_time.trim() === ""|| fourth_time.trim() === "" ) {
         return res.status(400).send({
             error: 'All fields are required'
@@ -360,8 +360,8 @@ app.post('/api/create-school_table', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO school_tables (day, first_time, second_time, third_time, fourth_time) VALUES ( ?, ?, ?, ?, ?)`;
-    const values = [day, first_time, second_time, third_time, fourth_time];
+    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time) VALUES ( ?, ?, ?, ?, ?)`;
+    const values = [days, first_time, second_time, third_time, fourth_time];
 
     console.log('Executing query:', query);
     console.log('With values:', values);
@@ -437,7 +437,7 @@ app.get('/api/admin', (req, res) => {
 // API Select daily
 
 app.get('/api/daily', (req, res) => {
-    const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC LIMIT 5";
+    const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC";
 
     db.query(query, (err, results) => {
         if (err) {
@@ -453,6 +453,22 @@ app.get('/api/daily', (req, res) => {
 // API Select Income
 
 app.get('/api/income', (req, res) => {
+    const query = "SELECT * FROM daily WHERE income IS NOT NULL ORDER BY id DESC LIMIT 5";
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching daily:', err);
+            return res.status(500).send({
+                error: "Database Error"
+            });
+        }
+        res.status(200).send(results);
+    });
+});
+
+// API Select Income
+
+app.get('/api/all-income', (req, res) => {
     const query = "SELECT * FROM daily WHERE income IS NOT NULL ORDER BY id DESC";
 
     db.query(query, (err, results) => {
@@ -469,6 +485,22 @@ app.get('/api/income', (req, res) => {
 // API Select Expenditure
 
 app.get('/api/expenditure', (req, res) => {
+    const query = "SELECT * FROM daily WHERE expenditure IS NOT NULL ORDER BY id DESC LIMIT 5";
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching daily:', err);
+            return res.status(500).send({
+                error: "Database Error"
+            });
+        }
+        res.status(200).send(results);
+    });
+});
+
+// API Select Expenditure
+
+app.get('/api/all-expenditure', (req, res) => {
     const query = "SELECT * FROM daily WHERE expenditure IS NOT NULL ORDER BY id DESC";
 
     db.query(query, (err, results) => {
@@ -485,6 +517,22 @@ app.get('/api/expenditure', (req, res) => {
 // API Select Note
 
 app.get('/api/note', (req, res) => {
+    const query = "SELECT * FROM notes ORDER BY id DESC LIMIT 5";
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching note:', err);
+            return res.status(500).send({
+                error: "Database Error"
+            });
+        }
+        res.status(200).send(results);
+    });
+});
+
+// API Select Note
+
+app.get('/api/all-note', (req, res) => {
     const query = "SELECT * FROM notes ORDER BY id DESC";
 
     db.query(query, (err, results) => {
@@ -670,79 +718,6 @@ app.get('/api/daily/:dailyId', (req, res) => {
     });
 });
 
-app.put('/api/update-daily/:dailyId', async (req, res) => {
-    const dailyId = req.params.dailyId;
-    const {
-        five_six,
-        six_seven,
-        seven_eight,
-        eight_nine,
-        nine_ten,
-        ten_eleven,
-        eleven_twelve,
-        twelve_thirteen,
-        thirteen_fourteen,
-        fourteen_fifteen,
-        fifteen_sixteen,
-        sixteen_seventeen,
-        seventeen_eighteen,
-        eighteen_nineteen,
-        nineteen_twenty,
-        twenty_twentyone,
-        twentyone_twentytwo,
-        twentytwo_twentythree,
-        twentythree_five,
-        day
-    } = req.body;
-
-    if (!five_six || !six_seven ||
-        !seven_eight || !eight_nine ||
-        !nine_ten || !ten_eleven ||
-        !eleven_twelve || !twelve_thirteen ||
-        !thirteen_fourteen || !fourteen_fifteen ||
-        !fifteen_sixteen || !sixteen_seventeen ||
-        !seventeen_eighteen || !eighteen_nineteen ||
-        !nineteen_twenty || !twenty_twentyone ||
-        !twentyone_twentytwo || !twentytwo_twentythree ||
-        !twentythree_five || !day ||
-        five_six.trim() === "" || six_seven.trim() === "" ||
-        seven_eight.trim() === "" || eight_nine.trim() === "" ||
-        nine_ten.trim() === "" || ten_eleven.trim() === "" ||
-        eleven_twelve.trim() === "" || twelve_thirteen.trim() === "" ||
-        thirteen_fourteen.trim() === "" || fourteen_fifteen.trim() === "" ||
-        fifteen_sixteen.trim() === "" || sixteen_seventeen.trim() === "" ||
-        seventeen_eighteen.trim() === "" || eighteen_nineteen.trim() === "" ||
-        nineteen_twenty.trim() === "" || twenty_twentyone.trim() === "" ||
-        twentyone_twentytwo.trim() === "" || twentytwo_twentythree.trim() === "" ||
-        twentythree_five.trim() === "" || day.trim() === "") {
-        return res.status(400).send({
-            error: 'All fields are required'
-        });
-    }
-    const query = `UPDATE daily SET five_six = ?, six_seven = ?, seven_eight = ?, eight_nine = ?, nine_ten = ?, ten_eleven = ?, eleven_twelve = ?, twelve_thirteen = ?, thirteen_fourteen = ?, fourteen_fifteen = ?, fifteen_sixteen = ?, sixteen_seventeen = ?, seventeen_eighteen = ?, eighteen_nineteen = ?, nineteen_twenty = ?, twenty_twentyone = ?, twentyone_twentytwo = ?, twentytwo_twentythree = ?, twentythree_five = ?, day = ? WHERE id = ?`;
-    const values = [five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, day, dailyId];
-    db.query(query, values, (err, result) => {
-        if (err) {
-            console.error('Error updating Employee:', err);
-            return res.status(500).send({
-                error: 'Database error'
-            });
-        }
-
-        // Check if any row was updated
-        if (result.affectedRows === 0) {
-            return res.status(404).send({
-                error: 'Daily not found'
-            });
-        }
-
-        res.status(200).send({
-            message: 'Daily updated successfully',
-            dailyId: dailyId
-        });
-    });
-});
-
 
 // API Update Income
 app.get('/api/daily/:dailyId', (req, res) => {
@@ -787,7 +762,7 @@ app.put('/api/update-daily/:dailyId', async (req, res) => {
         twentyone_twentytwo,
         twentytwo_twentythree,
         twentythree_five,
-        day
+        days
     } = req.body;
 
     if (!five_six || !six_seven ||
@@ -799,7 +774,7 @@ app.put('/api/update-daily/:dailyId', async (req, res) => {
         !seventeen_eighteen || !eighteen_nineteen ||
         !nineteen_twenty || !twenty_twentyone ||
         !twentyone_twentytwo || !twentytwo_twentythree ||
-        !twentythree_five || !day ||
+        !twentythree_five || !days ||
         five_six.trim() === "" || six_seven.trim() === "" ||
         seven_eight.trim() === "" || eight_nine.trim() === "" ||
         nine_ten.trim() === "" || ten_eleven.trim() === "" ||
@@ -809,13 +784,13 @@ app.put('/api/update-daily/:dailyId', async (req, res) => {
         seventeen_eighteen.trim() === "" || eighteen_nineteen.trim() === "" ||
         nineteen_twenty.trim() === "" || twenty_twentyone.trim() === "" ||
         twentyone_twentytwo.trim() === "" || twentytwo_twentythree.trim() === "" ||
-        twentythree_five.trim() === "" || day.trim() === "") {
+        twentythree_five.trim() === "" || days.trim() === "") {
         return res.status(400).send({
             error: 'All fields are required'
         });
     }
-    const query = `UPDATE daily SET five_six = ?, six_seven = ?, seven_eight = ?, eight_nine = ?, nine_ten = ?, ten_eleven = ?, eleven_twelve = ?, twelve_thirteen = ?, thirteen_fourteen = ?, fourteen_fifteen = ?, fifteen_sixteen = ?, sixteen_seventeen = ?, seventeen_eighteen = ?, eighteen_nineteen = ?, nineteen_twenty = ?, twenty_twentyone = ?, twentyone_twentytwo = ?, twentytwo_twentythree = ?, twentythree_five = ?, day = ? WHERE id = ?`;
-    const values = [five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, day, dailyId];
+    const query = `UPDATE daily SET five_six = ?, six_seven = ?, seven_eight = ?, eight_nine = ?, nine_ten = ?, ten_eleven = ?, eleven_twelve = ?, twelve_thirteen = ?, thirteen_fourteen = ?, fourteen_fifteen = ?, fifteen_sixteen = ?, sixteen_seventeen = ?, seventeen_eighteen = ?, eighteen_nineteen = ?, nineteen_twenty = ?, twenty_twentyone = ?, twentyone_twentytwo = ?, twentytwo_twentythree = ?, twentythree_five = ?, days = ? WHERE id = ?`;
+    const values = [five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, days, dailyId];
     db.query(query, values, (err, result) => {
         if (err) {
             console.error('Error updating Employee:', err);
@@ -1267,13 +1242,13 @@ app.get('/api/count-plan_not_yet_success', (req, res) => {
 });
 
   // API endpoint to get the count daily
-  app.get('/api/count-day', (req, res) => {
-    const query = 'SELECT COUNT(`five_six`) as count_day FROM `daily` WHERE expenditure IS NULL AND income IS NULL';
+  app.get('/api/count-days', (req, res) => {
+    const query = 'SELECT COUNT(`five_six`) as count_days FROM `daily` WHERE expenditure IS NULL AND income IS NULL';
     db.query(query, (err, results) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      res.json({ count_day: results[0].count_day });
+      res.json({ count_days: results[0].count_days });
     });
 });
 
@@ -1312,13 +1287,13 @@ app.get('/api/sum-income', (req, res) => {
 });
 
  // API endpoint to get the sum Income
- app.get('/api/sum-expenditure_today', (req, res) => {
-    const query = 'SELECT SUM(`expenditure`) as sum_expenditure_today FROM `daily` WHERE DATE(timestamp) = CURRENT_DATE()';
+ app.get('/api/sum-expenditure_todays', (req, res) => {
+    const query = 'SELECT SUM(`expenditure`) as sum_expenditure_todays FROM `daily` WHERE DATE(timestamp) = CURRENT_DATE()';
     db.query(query, (err, results) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      res.json({ sum_expenditure_today: results[0].sum_expenditure_today });
+      res.json({ sum_expenditure_todays: results[0].sum_expenditure_todays });
     });
 });
 // Run on Port 3000
