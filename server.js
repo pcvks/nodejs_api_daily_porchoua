@@ -1288,7 +1288,7 @@ app.get('/api/sum-income', (req, res) => {
 
  // API endpoint to get the sum Income
  app.get('/api/sum-expenditure_todays', (req, res) => {
-    const query = 'SELECT SUM(`expenditure`) as sum_expenditure_todays FROM `daily` WHERE DATE(timestamp) = CURRENT_DATE()';
+    const query = "SELECT SUM(`expenditure`) as sum_expenditure_todays FROM `daily` WHERE WHERE DATE(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = CURRENT_DATE()";
     db.query(query, (err, results) => {
       if (err) {
         return res.status(500).json({ error: err.message });
