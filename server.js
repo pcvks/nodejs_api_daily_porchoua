@@ -96,7 +96,7 @@ app.post('/api/create-admin', async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const query = `INSERT INTO users (name, email,  password, phone) VALUES (?, ?, ?, ?)`;
+        const query = `INSERT INTO users (name, email,  password, phone, timestamp) VALUES (?, ?, ?, ?, NOW())`;
         const values = [name, email, hashedPassword, phone];
 
         db.query(query, values, (err, result) => {
@@ -171,7 +171,7 @@ app.post('/api/create-daily', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO daily (five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, days) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO daily (five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, days, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`;
     const values = [five_six, six_seven, seven_eight, eight_nine, nine_ten, ten_eleven, eleven_twelve, twelve_thirteen, thirteen_fourteen, fourteen_fifteen, fifteen_sixteen, sixteen_seventeen, seventeen_eighteen, eighteen_nineteen, nineteen_twenty, twenty_twentyone, twentyone_twentytwo, twentytwo_twentythree, twentythree_five, days];
 
     console.log('Executing query:', query);
@@ -209,7 +209,7 @@ app.post('/api/create-income', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO daily (income, income_reason, m_status) VALUES (?, ?, ?)`;
+    const query = `INSERT INTO daily (income, income_reason, m_status, timestamp) VALUES (?, ?, ?, NOW())`;
     const values = [income, income_reason, m_status];
 
     console.log('Executing query:', query);
@@ -246,7 +246,7 @@ app.post('/api/create-expenditure', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO daily (expenditure, expenditure_reason, m_status) VALUES (?, ?, ?)`;
+    const query = `INSERT INTO daily (expenditure, expenditure_reason, m_status, timestamp) VALUES (?, ?, ?, NOW())`;
     const values = [expenditure, expenditure_reason, m_status];
 
     console.log('Executing query:', query);
@@ -284,7 +284,7 @@ app.post('/api/create-note', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO notes (content, module) VALUES ( ?, ?)`;
+    const query = `INSERT INTO notes (content, module, timestamp) VALUES ( ?, ?, NOW())`;
     const values = [content, module];
 
     console.log('Executing query:', query);
@@ -319,7 +319,7 @@ app.post('/api/create-plan', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO plans (plan_name, percent) VALUES ( ?, ?)`;
+    const query = `INSERT INTO plans (plan_name, percent, timestamp) VALUES ( ?, ?, NOW())`;
     const values = [plan_name, percent];
 
     console.log('Executing query:', query);
@@ -360,7 +360,7 @@ app.post('/api/create-school_table', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time) VALUES ( ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time, timestamp) VALUES ( ?, ?, ?, ?, ?, NOW())`;
     const values = [days, first_time, second_time, third_time, fourth_time];
 
     console.log('Executing query:', query);
