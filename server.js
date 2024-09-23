@@ -1266,6 +1266,17 @@ app.get('/api/sum-income', (req, res) => {
 });
 
   // API endpoint to get the sum Income
+  app.get('/api/sum-income-by-mom', (req, res) => {
+    const query = "SELECT SUM(`income`) as sum_income_by_mom FROM `daily` WHERE income_reason = 'ແມ່ເອົາໃຫ້'";
+    db.query(query, (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ sum_income_by_mom: results[0].sum_income_by_mom });
+    });
+});
+
+  // API endpoint to get the sum Income
   app.get('/api/sum-expenditure', (req, res) => {
     const query = 'SELECT SUM(`expenditure`) as sum_expenditure FROM `daily`';
     db.query(query, (err, results) => {
@@ -1297,6 +1308,28 @@ app.get('/api/sum-income', (req, res) => {
       res.json({ sum_expenditure_todays: results[0].sum_expenditure_todays });
     });
 });
+ // API endpoint to get the sum Income
+ app.get('/api/sum-expenditure_this_month', (req, res) => {
+    const query = "SELECT SUM(`expenditure`) as sum_expenditure_this_month FROM `daily` WHERE MONTH(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = MONTH(CURRENT_DATE()) AND YEAR(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = YEAR(CURRENT_DATE())";
+    db.query(query, (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ sum_expenditure_this_month: results[0].sum_expenditure_this_month });
+    });
+});
+
+// API endpoint to get the sum Income
+app.get('/api/-by-mom_this_month', (req, res) => {
+    const query = "SELECT SUM(`income`) as sum_income_this_month FROM `daily` WHERE MONTH(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = MONTH(CURRENT_DATE()) AND YEAR(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = YEAR(CURRENT_DATE())";
+    db.query(query, (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ sum_income_this_month: results[0].sum_income_this_month });
+    });
+});
+
 // Run on Port 3000
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
