@@ -435,10 +435,10 @@ app.get('/api/admin', (req, res) => {
     });
 });
 
-// API Select daily limit 7
+// API Select daily
 
 app.get('/api/daily', (req, res) => {
-    const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC LIMIT 7";
+    const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC LIMIT 8";
 
     db.query(query, (err, results) => {
         if (err) {
@@ -718,7 +718,29 @@ app.get('/api/daily/:dailyId', (req, res) => {
         res.status(200).send(results[0]);
     });
 });
-// api update dialy
+
+
+// API Update Income
+app.get('/api/daily/:dailyId', (req, res) => {
+    const dailyId = req.params.dailyId;
+    const query = "SELECT * FROM daily WHERE id = ?";
+
+    db.query(query, [dailyId], (err, results) => {
+        if (err) {
+            console.error('Error fetching admin:', err);
+            return res.status(500).send({
+                error: 'Database error'
+            });
+        }
+        if (results.length === 0) {
+            return res.status(404).send({
+                error: 'daily not found'
+            });
+        }
+        res.status(200).send(results[0]);
+    });
+});
+
 app.put('/api/update-daily/:dailyId', async (req, res) => {
     const dailyId = req.params.dailyId;
     const {
