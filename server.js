@@ -718,7 +718,7 @@ app.get('/api/daily/:dailyId', (req, res) => {
         res.status(200).send(results[0]);
     });
 });
-
+// api update dialy
 app.put('/api/update-daily/:dailyId', async (req, res) => {
     const dailyId = req.params.dailyId;
     const {
