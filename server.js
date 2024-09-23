@@ -348,8 +348,6 @@ app.post('/api/create-school_table', (req, res) => {
         second_time,
         third_time,
         fourth_time,
-        since_date,
-        unit_date
     } = req.body;
 
     if (!days || !first_time || !second_time || !third_time || !fourth_time 
