@@ -719,28 +719,6 @@ app.get('/api/daily/:dailyId', (req, res) => {
     });
 });
 
-
-// API Update Income
-app.get('/api/daily/:dailyId', (req, res) => {
-    const dailyId = req.params.dailyId;
-    const query = "SELECT * FROM daily WHERE id = ?";
-
-    db.query(query, [dailyId], (err, results) => {
-        if (err) {
-            console.error('Error fetching admin:', err);
-            return res.status(500).send({
-                error: 'Database error'
-            });
-        }
-        if (results.length === 0) {
-            return res.status(404).send({
-                error: 'daily not found'
-            });
-        }
-        res.status(200).send(results[0]);
-    });
-});
-
 app.put('/api/update-daily/:dailyId', async (req, res) => {
     const dailyId = req.params.dailyId;
     const {
