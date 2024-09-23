@@ -438,7 +438,7 @@ app.get('/api/admin', (req, res) => {
 // API Select daily
 
 app.get('/api/daily', (req, res) => {
-    const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC LIMIT 8";
+    const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC";
 
     db.query(query, (err, results) => {
         if (err) {
