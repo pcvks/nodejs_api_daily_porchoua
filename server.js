@@ -347,15 +347,13 @@ app.post('/api/create-school_table', (req, res) => {
         first_time,
         second_time,
         third_time,
-        fourth_time,
-        since_date,
-        until_date
+        fourth_time
     } = req.body;
 
 // update fields since_date and until_date
     if (!days || !first_time || !second_time || !third_time || !fourth_time 
         || days.trim() === ""|| first_time.trim() === ""|| second_time.trim() === "" 
-        || third_time.trim() === ""|| fourth_time.trim() === "" || since_date.trim() === "" || until_date.trim() === "" ) {
+        || third_time.trim() === ""|| fourth_time.trim() === "" ) {
         return res.status(400).send({
             error: 'All fields are required'
         });
@@ -363,8 +361,8 @@ app.post('/api/create-school_table', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time, since_date, until_date) VALUES ( ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [days, first_time, second_time, third_time, fourth_time, since_date, until_date];
+    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time, timestamp) VALUES ( ?, ?, ?, ?, ?, NOW())`;
+    const values = [days, first_time, second_time, third_time, fourth_time];
 
     console.log('Executing query:', query);
     console.log('With values:', values);
