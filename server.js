@@ -349,7 +349,7 @@ app.post('/api/create-school_table', (req, res) => {
         third_time,
         fourth_time,
         since_date,
-        unit_date
+        until_date
     } = req.body;
 
     if (!days || !first_time || !second_time || !third_time || !fourth_time 
@@ -362,8 +362,8 @@ app.post('/api/create-school_table', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time,since_date, unit_date, timestamp) VALUES ( ?, ?, ?, ?, ?, ?, ?, NOW())`;
-    const values = [days, first_time, second_time, third_time, fourth_time, since_date, unit_date];
+    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time,since_date, until_date, timestamp) VALUES ( ?, ?, ?, ?, ?, ?, ?, NOW())`;
+    const values = [days, first_time, second_time, third_time, fourth_time, since_date, until_date];
 
     console.log('Executing query:', query);
     console.log('With values:', values);
