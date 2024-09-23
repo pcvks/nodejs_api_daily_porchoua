@@ -351,7 +351,7 @@ app.post('/api/create-school_table', (req, res) => {
         since_date,
         until_date
     } = req.body;
-
+// add fields since_date and until_date
     if (!days || !first_time || !second_time || !third_time || !fourth_time 
         || days.trim() === ""|| first_time.trim() === ""|| second_time.trim() === "" 
         || third_time.trim() === ""|| fourth_time.trim() === "" || since_date.trim() === "" || unit_date.trim() === "" ) {
