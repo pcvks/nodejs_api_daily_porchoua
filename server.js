@@ -363,7 +363,7 @@ app.post('/api/create-school_table', (req, res) => {
 
     console.log('Request body:', req.body);
 
-    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time, since_date, until_date, timestamp) VALUES ( ?, ?, ?, ?, ?, ?, ?, NOW())`;
+    const query = `INSERT INTO school_tables (days, first_time, second_time, third_time, fourth_time, since_date, until_date) VALUES ( ?, ?, ?, ?, ?, ?, ?)`;
     const values = [days, first_time, second_time, third_time, fourth_time, since_date, until_date];
 
     console.log('Executing query:', query);
