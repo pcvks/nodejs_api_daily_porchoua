@@ -435,7 +435,7 @@ app.get('/api/admin', (req, res) => {
     });
 });
 
-// API Select daily
+// API Select daily limit 7
 
 app.get('/api/daily', (req, res) => {
     const query = "SELECT * FROM daily WHERE five_six IS NOT NULL ORDER BY id DESC LIMIT 7";
