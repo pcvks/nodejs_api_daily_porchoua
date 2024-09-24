@@ -1264,7 +1264,7 @@ app.get('/api/sum-income', (req, res) => {
       res.json({ sum_income: results[0].sum_income });
     });
 });
-
+// test
   // API endpoint to get the sum Income
   app.get('/api/sum-income_by_mom', (req, res) => {
     const query = "SELECT SUM(`income`) as sum_income_by_mom FROM `daily` WHERE income_reason = 'ແມ່ເອົາໃຫ້'";
