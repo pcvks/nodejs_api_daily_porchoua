@@ -1266,7 +1266,7 @@ app.get('/api/sum-income', (req, res) => {
 });
 
   // API endpoint to get the sum Income
-  app.get('/api/sum-income-by-mom', (req, res) => {
+  app.get('/api/sum-income_by_mom', (req, res) => {
     const query = "SELECT SUM(`income`) as sum_income_by_mom FROM `daily` WHERE income_reason = 'ແມ່ເອົາໃຫ້'";
     db.query(query, (err, results) => {
       if (err) {
@@ -1320,7 +1320,7 @@ app.get('/api/sum-income', (req, res) => {
 });
 
 // API endpoint to get the sum Income
-app.get('/api/-by-mom_this_month', (req, res) => {
+app.get('/api/sum-income_this_month', (req, res) => {
     const query = "SELECT SUM(`income`) as sum_income_this_month FROM `daily` WHERE MONTH(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = MONTH(CURRENT_DATE()) AND YEAR(STR_TO_DATE(`timestamp`, '%Y-%m-%d %H:%i:%s')) = YEAR(CURRENT_DATE())";
     db.query(query, (err, results) => {
       if (err) {
